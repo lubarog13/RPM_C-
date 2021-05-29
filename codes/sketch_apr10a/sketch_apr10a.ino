@@ -13,7 +13,7 @@ int servo01PrevPosit, servo02PrevPosit, servo03PrevPosit, servo04PrevPosit, serv
 int servo01SP[50], servo02SP[50], servo03SP[50], servo04SP[50], servo05SP[50], servo06SP[50];
 int speedDelay=20;
 int index=0;
-StringdataIn="";
+String dataIn="";
 void setup() {
   servo01.attach(5);
   servo01.attach(6);
@@ -41,7 +41,7 @@ void setup() {
 void loop() {
  if(Bluetooth.available()>0){
     dataIn=Bluetooth.readString();
-    if(dataIn.startsWith("s1"){
+    if(dataIn.startsWith("s1")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo01Posit = dataInS.toInt();
       if(servo01PrevPosit>servo01Posit){
@@ -58,7 +58,7 @@ void loop() {
       }
       servo01PrevPosit=servo01Posit;
     }
-    if(dataIn.startsWith("s2"){
+    if(dataIn.startsWith("s2")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo02Posit = dataInS.toInt();
       if(servo02PrevPosit>servo02Posit){
@@ -75,7 +75,7 @@ void loop() {
       }
       servo02PrevPosit=servo02Posit;
     }
-    if(dataIn.startsWith("s3"){
+    if(dataIn.startsWith("s3")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo03Posit = dataInS.toInt();
       if(servo03PrevPosit>servo03Posit){
@@ -92,7 +92,7 @@ void loop() {
       }
       servo03PrevPosit=servo03Posit;
     }
-    if(dataIn.startsWith("s4"){
+    if(dataIn.startsWith("s4")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo04Posit = dataInS.toInt();
       if(servo04PrevPosit>servo04Posit){
@@ -109,7 +109,7 @@ void loop() {
       }
       servo04PrevPosit=servo04Posit;
     }
-    if(dataIn.startsWith("s5"){
+    if(dataIn.startsWith("s5")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo05Posit = dataInS.toInt();
       if(servo05PrevPosit>servo05Posit){
@@ -126,7 +126,7 @@ void loop() {
       }
       servo05PrevPosit=servo05Posit;
     }
-    if(dataIn.startsWith("s6"){
+    if(dataIn.startsWith("s6")){
       String dataInS = dataIn.substring(2, dataIn.length());
       servo06Posit = dataInS.toInt();
       if(servo06PrevPosit>servo06Posit){
@@ -143,7 +143,7 @@ void loop() {
       }
       servo06PrevPosit=servo06Posit;
     }
-    if(dataIn.startsWith("SAVE"){
+    if(dataIn.startsWith("SAVE")){
       servo01SP[index]=servo01PrevPosit;
       servo02SP[index]=servo02PrevPosit;
       servo03SP[index]=servo03PrevPosit;
@@ -151,7 +151,7 @@ void loop() {
       servo05SP[index]=servo05PrevPosit;
       servo06SP[index]=servo06PrevPosit;
       index++;}
-    if(dataIn.startsWith("RUN"){
+    if(dataIn.startsWith("RUN")){
       runservo();
     }
     if(dataIn=="RESET"){
@@ -168,10 +168,10 @@ void loop() {
 void runservo(){
   while (dataIn!="RESET"){
     for(int i=0; i<index-1; i++){
-      if(Bluetooth.available>0){
+      if(Bluetooth.available()>0){
         dataIn=Bluetooth.readString();
         if(dataIn=="PAUSE"){
-          while (datain!="RUN"){
+          while (dataIn!="RUN"){
             if(Bluetooth.available()>0){
               dataIn=Bluetooth.readString();
               if(dataIn=="RESET") break;
@@ -179,7 +179,7 @@ void runservo(){
           }
         }
         if(dataIn.startsWith("ss")){
-          String dataInS = dataIn.substring(2, dataIn.length);
+          String dataInS = dataIn.substring(2, dataIn.length());
           speedDelay = dataInS.toInt();
         }
       }

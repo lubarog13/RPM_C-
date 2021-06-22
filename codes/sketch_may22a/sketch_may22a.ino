@@ -6,11 +6,10 @@ Servo servo03;
 Servo servo04;
 Servo servo05;
 Servo servo06;
-SoftwareSerial Bluetooth(3, 4);// Arduino(RX, TX) - HC-05 Bluetooth (TX, RX)
+//SoftwareSerial Bluetooth(3, 4); // Arduino(RX, TX) - HC-05 Bluetooth (TX, RX)
 int servo1Pos, servo2Pos, servo3Pos, servo4Pos, servo5Pos, servo6Pos; // current position
 int servo1PPos, servo2PPos, servo3PPos, servo4PPos, servo5PPos, servo6PPos; // previous position
 int servo01SP[50], servo02SP[50], servo03SP[50], servo04SP[50], servo05SP[50], servo06SP[50]; // for storing positions/steps
-int counter=0;
 int speedDelay = 20;
 int index = 0;
 String dataIn = "";
@@ -21,12 +20,12 @@ void setup() {
   servo04.attach(8);
   servo05.attach(9);
   servo06.attach(10);
-  Bluetooth.begin(9600);
-  delay(20);
+  //Bluetooth.begin(9600); 
+  //delay(20);
   // Robot arm initial position
   servo1PPos = 90;
   servo01.write(servo1PPos);
-  servo2PPos = 180;
+  servo2PPos = 150;
   servo02.write(servo2PPos);
   servo3PPos = 35;
   servo03.write(servo3PPos);
@@ -38,17 +37,10 @@ void setup() {
   servo06.write(servo6PPos);
 }
 void loop() {
-  /*counter++;
-  if(counter==10000){
-    delay(50);
-    counter=0;
-  }*/
   // Check for incoming data
-  if (Bluetooth.available() > 0) {
-    dataIn = Bluetooth.readString();
-    Bluetooth.println(dataIn);// Read the data as string
-    /*Bluetooth.println(dataIn);
-    Bluetooth.println(dataIn.substring(2, dataIn.length()).toInt());*/
+  if (Serial.available() > 0) {
+    dataIn = Serial.readString();  // Read the data as string
+    
     // If "Waist" slider has changed value - Move Servo 1 to position
     if (dataIn.startsWith("s1")) {
       String dataInS = dataIn.substring(2, dataIn.length()); // Extract only the number. E.g. from "s1120" to "120"
@@ -75,7 +67,6 @@ void loop() {
     if (dataIn.startsWith("s2")) {
       String dataInS = dataIn.substring(2, dataIn.length());
       servo2Pos = dataInS.toInt();
-      if(servo2Pos<90) servo2Pos=90;
       if (servo2PPos > servo2Pos) {
         for ( int j = servo2PPos; j >= servo2Pos; j--) {
           servo02.write(j);
@@ -151,13 +142,13 @@ void loop() {
       if (servo6PPos > servo6Pos) {
         for ( int j = servo6PPos; j >= servo6Pos; j--) {
           servo06.write(j);
-          delay(20);
+          delay(30);
         }
       }
       if (servo6PPos < servo6Pos) {
         for ( int j = servo6PPos; j <= servo6Pos; j++) {
           servo06.write(j);
-          delay(20);
+          delay(30);
         }
       }
       servo6PPos = servo6Pos; 
@@ -192,12 +183,12 @@ void loop() {
 void runservo() {
   while (dataIn != "RESET") {   // Run the steps over and over again until "RESET" button is pressed
     for (int i = 0; i <= index - 2; i++) {  // Run through all steps(index)
-      if (Bluetooth.available() > 0) {      // Check for incomding data
-        dataIn = Bluetooth.readString();
+      if (Serial.available() > 0) {      // Check for incomding data
+        dataIn = Serial.readString();
         if ( dataIn == "PAUSE") {           // If button "PAUSE" is pressed
           while (dataIn != "RUN") {         // Wait until "RUN" is pressed again
-            if (Bluetooth.available() > 0) {
-              dataIn = Bluetooth.readString();
+            if (Serial.available() > 0) {
+              dataIn = Serial.readString();
               if ( dataIn == "RESET") {     
                 break;
               }

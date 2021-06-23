@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,7 +29,10 @@ void MainWindow::on_save_clicked()
        serialPort.setPortName(this->ui->cmbPort->currentText());
        // указали скорость
        serialPort.setBaudRate(QSerialPort::Baud9600);
-
+       serialPort.setDataBits(QSerialPort::Data8);
+         serialPort.setParity(QSerialPort::NoParity);
+         serialPort.setStopBits(QSerialPort::OneStop);
+         serialPort.setFlowControl(QSerialPort::NoFlowControl);
        // пробуем подключится
        if (!serialPort.open(QIODevice::ReadWrite)) {
            // если подключится не получится, то покажем сообщение с ошибкой
@@ -40,7 +44,7 @@ void MainWindow::on_save_clicked()
        serialPort.write("SAVE"); // очень важно, что именно двойные кавычки
        int pos = ui->positions->text().toInt();
        pos++;
-       ui->positions->setText(QString(pos));
+       ui->positions->setText(QString::number(pos));
        serialPort.waitForBytesWritten(); // ждем пока дойдет
        while (serialPort.waitForReadyRead(10)) {
            // и если появилось мы просто это читаем в пустоту
@@ -60,6 +64,10 @@ void MainWindow::on_run_clicked()
        serialPort.setPortName(this->ui->cmbPort->currentText());
        // указали скорость
        serialPort.setBaudRate(QSerialPort::Baud9600);
+       serialPort.setDataBits(QSerialPort::Data8);
+         serialPort.setParity(QSerialPort::NoParity);
+         serialPort.setStopBits(QSerialPort::OneStop);
+         serialPort.setFlowControl(QSerialPort::NoFlowControl);
 
        // пробуем подключится
        if (!serialPort.open(QIODevice::ReadWrite)) {
@@ -107,6 +115,10 @@ void MainWindow::on_reset_clicked()
     serialPort.setPortName(this->ui->cmbPort->currentText());
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
 
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
@@ -117,6 +129,7 @@ void MainWindow::on_reset_clicked()
         serialPort.write("RESET");
         ui->run->setText("Начать");
         ui->run->setStyleSheet("* { background-color: rgb(38, 67, 255) }");
+        ui->positions->setText("0");
         IsPaused = false;
     serialPort.waitForBytesWritten();
     while (serialPort.waitForReadyRead(10)) {
@@ -135,24 +148,34 @@ void MainWindow::on_servo_06_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s6"+QString(value);
+    QString str1 = "s6"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();
@@ -164,24 +187,34 @@ void MainWindow::on_servo_05_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s5"+QString(value);
+    QString str1 = "s5"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();
@@ -193,24 +226,34 @@ void MainWindow::on_servo_04_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s4"+QString(value);
+    QString str1 = "s4"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();
@@ -222,24 +265,34 @@ void MainWindow::on_servo_03_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s3"+QString(value);
+    QString str1 = "s3"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();
@@ -251,24 +304,34 @@ void MainWindow::on_servo_02_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s2"+QString(value);
+    QString str1 = "s2"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();
@@ -280,24 +343,34 @@ void MainWindow::on_servo_01_valueChanged(int value)
 
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
+    QString pname= this->ui->cmbPort->currentText();
+    qDebug()<<pname;
     // указали скорость
     serialPort.setBaudRate(QSerialPort::Baud9600);
-
+    serialPort.setDataBits(QSerialPort::Data8);
+      serialPort.setParity(QSerialPort::NoParity);
+      serialPort.setStopBits(QSerialPort::OneStop);
+      serialPort.setFlowControl(QSerialPort::NoFlowControl);
     // пробуем подключится
     if (!serialPort.open(QIODevice::ReadWrite)) {
         // если подключится не получится, то покажем сообщение с ошибкой
         QMessageBox::warning(this, "Ошибка", "Не удалось подключится к порту");
         return;
     }
-    QString str1 = "s1"+QString(value);
+    QString str1 = "s1"+QString::number(value);
       QByteArray ba = str1.toLocal8Bit();
       const char *c_str2 = ba.data();
-        serialPort.write(c_str2);
+    serialPort.write(c_str2);
     serialPort.waitForBytesWritten();
+    QByteArray data;
     while (serialPort.waitForReadyRead(10)) {
         // и если появилось мы просто это читаем в пустоту
-        serialPort.readAll();
+        data.append(serialPort.readAll());
     }
+    qDebug()<<data;
+    qDebug()<<value;
+    qDebug()<<str1;
+    qDebug()<<c_str2;
 
     // ну и закрываем порт
     serialPort.close();

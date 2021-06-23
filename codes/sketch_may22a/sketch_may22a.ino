@@ -6,7 +6,7 @@ Servo servo03;
 Servo servo04;
 Servo servo05;
 Servo servo06;
-//SoftwareSerial Bluetooth(3, 4); // Arduino(RX, TX) - HC-05 Bluetooth (TX, RX)
+SoftwareSerial Bluetooth(3, 4); // Arduino(RX, TX) - HC-05 Bluetooth (TX, RX)
 int servo1Pos, servo2Pos, servo3Pos, servo4Pos, servo5Pos, servo6Pos; // current position
 int servo1PPos, servo2PPos, servo3PPos, servo4PPos, servo5PPos, servo6PPos; // previous position
 int servo01SP[50], servo02SP[50], servo03SP[50], servo04SP[50], servo05SP[50], servo06SP[50]; // for storing positions/steps
@@ -14,14 +14,18 @@ int speedDelay = 20;
 int index = 0;
 String dataIn = "";
 void setup() {
+  pinMode(2, OUTPUT); // устанавливаем 2 и 3 пин на отправку данных, [привет Игорю Федотову]
+  pinMode(3, OUTPUT);
+  Serial.begin(9600);
+  Serial.setTimeout(100);
   servo01.attach(5);
   servo02.attach(6);
   servo03.attach(7);
   servo04.attach(8);
   servo05.attach(9);
   servo06.attach(10);
-  //Bluetooth.begin(9600); 
-  //delay(20);
+  Bluetooth.begin(9600); 
+  delay(20);
   // Robot arm initial position
   servo1PPos = 90;
   servo01.write(servo1PPos);
@@ -40,7 +44,8 @@ void loop() {
   // Check for incoming data
   if (Serial.available() > 0) {
     dataIn = Serial.readString();  // Read the data as string
-    
+    Serial.print("Ok");
+    Bluetooth.print(dataIn);
     // If "Waist" slider has changed value - Move Servo 1 to position
     if (dataIn.startsWith("s1")) {
       String dataInS = dataIn.substring(2, dataIn.length()); // Extract only the number. E.g. from "s1120" to "120"

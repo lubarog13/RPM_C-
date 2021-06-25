@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Arm control");
+    this->setWindowIcon(QIcon(":/images/icon.png"));
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
             ui->cmbPort->addItem(serialPortInfo.portName());

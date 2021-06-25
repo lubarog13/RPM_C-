@@ -104,6 +104,7 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_res.cpp
 release/qrc_res.cpp: ../Arduino_arm/res.qrc \
 		C:/Qt/5.15.2/mingw81_32/bin/rcc.exe \
+		../Arduino_arm/images/icon.png \
 		../Arduino_arm/images/Arduino-Robotic-Arm-3D-Printed-768x801.jpg \
 		../Arduino_arm/images/f9f39370b1c41477371f02aa1e3e9082.jpg
 	C:\Qt\5.15.2\mingw81_32\bin\rcc.exe -name res ..\Arduino_arm\res.qrc -o release\qrc_res.cpp
@@ -538,7 +539,8 @@ release/mainwindow.o: ../Arduino_arm/mainwindow.cpp ../Arduino_arm/mainwindow.h 
 		C:/Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
 		C:/Qt/5.15.2/mingw81_32/include/QtWidgets/QMessageBox \
 		C:/Qt/5.15.2/mingw81_32/include/QtWidgets/qmessagebox.h \
-		C:/Qt/5.15.2/mingw81_32/include/QtWidgets/qdialog.h
+		C:/Qt/5.15.2/mingw81_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\Arduino_arm\mainwindow.cpp
 
 release/qrc_res.o: release/qrc_res.cpp 

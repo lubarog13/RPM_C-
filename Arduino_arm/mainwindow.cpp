@@ -30,7 +30,7 @@ void MainWindow::on_save_clicked()
        // указали имя к какому порту будем подключаться
        serialPort.setPortName(this->ui->cmbPort->currentText());
        // указали скорость
-       serialPort.setBaudRate(QSerialPort::Baud9600);
+       serialPort.setBaudRate(QSerialPort::Baud115200);
        serialPort.setDataBits(QSerialPort::Data8);
          serialPort.setParity(QSerialPort::NoParity);
          serialPort.setStopBits(QSerialPort::OneStop);
@@ -65,7 +65,7 @@ void MainWindow::on_run_clicked()
        // указали имя к какому порту будем подключаться
        serialPort.setPortName(this->ui->cmbPort->currentText());
        // указали скорость
-       serialPort.setBaudRate(QSerialPort::Baud9600);
+       serialPort.setBaudRate(QSerialPort::Baud115200);
        serialPort.setDataBits(QSerialPort::Data8);
          serialPort.setParity(QSerialPort::NoParity);
          serialPort.setStopBits(QSerialPort::OneStop);
@@ -116,7 +116,7 @@ void MainWindow::on_reset_clicked()
     // указали имя к какому порту будем подключаться
     serialPort.setPortName(this->ui->cmbPort->currentText());
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -153,7 +153,7 @@ void MainWindow::on_servo_06_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -192,7 +192,7 @@ void MainWindow::on_servo_05_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -231,7 +231,7 @@ void MainWindow::on_servo_04_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -270,7 +270,7 @@ void MainWindow::on_servo_03_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -309,7 +309,7 @@ void MainWindow::on_servo_02_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
@@ -348,7 +348,7 @@ void MainWindow::on_servo_01_valueChanged(int value)
     QString pname= this->ui->cmbPort->currentText();
     qDebug()<<pname;
     // указали скорость
-    serialPort.setBaudRate(QSerialPort::Baud9600);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
     serialPort.setDataBits(QSerialPort::Data8);
       serialPort.setParity(QSerialPort::NoParity);
       serialPort.setStopBits(QSerialPort::OneStop);
